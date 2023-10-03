@@ -1,9 +1,15 @@
 import React from 'react';
 import { register } from '../../redux/auth/operations';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectIsLoggedIn } from 'redux/auth/selectors';
+import { Navigate } from 'react-router-dom';
 
 const Register = () => {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  if (isLoggedIn) {
+    return <Navigate to="/contacts" />;
+  }
   function handleSubmit(e) {
     e.preventDefault();
     const form = e.currentTarget;

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import Notiflix from 'notiflix';
+import { useNavigate } from 'react-router-dom';
 
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
@@ -20,7 +21,7 @@ const clearAuthHeader = () => {
  */
 export const register = createAsyncThunk(
   'auth/register',
-  async (credentials, thunkAPI) => {
+  async (credentials, { rejectWithValue, extra }) => {
     try {
       const res = await axios.post('/users/signup', credentials);
       // After successful registration, add the token to the HTTP header
@@ -31,7 +32,7 @@ export const register = createAsyncThunk(
       if (error.response.data.code === 11000) {
         Notiflix.Notify.failure('You should take another email!');
       }
-      return thunkAPI.rejectWithValue(error.message);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -47,9 +48,10 @@ export const logIn = createAsyncThunk(
       const res = await axios.post('/users/login', credentials);
       // After successful login, add the token to the HTTP header
       setAuthHeader(res.data.token);
+
       return res.data;
     } catch (error) {
-      console.log(error.response);
+      Notiflix.Notify.failure('Incorrect email or password!');
       thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -89,7 +91,7 @@ export const refreshUser = createAsyncThunk(
     try {
       // If there is a token, add it to the HTTP header and perform the request
       setAuthHeader(persistedToken);
-      const res = await axios.get('/users/me');
+      const res = await axios.get('/users/current');
       return res.data;
     } catch (error) {
       console.log(error);

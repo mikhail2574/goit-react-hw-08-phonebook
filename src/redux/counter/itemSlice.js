@@ -5,31 +5,13 @@ const itemSlice = createSlice({
   name: 'items',
   initialState: {
     allItems: [],
-    filteredItems: [],
+    q: '',
     isLoading: false,
     error: null,
   },
   reducers: {
-    addItem: (state, action) => {
-      state.allItems.push(action.payload);
-      state.filteredItems.push(action.payload);
-    },
-    removeItem: (state, action) => {
-      state.allItems = state.allItems.filter(
-        contact => contact.id !== action.payload
-      );
-      state.filteredItems = state.filteredItems.filter(
-        contact => contact.id !== action.payload
-      );
-    },
-    filterItems: (state, action) => {
-      if (action.payload && action.payload) {
-        state.filteredItems = state.allItems.filter(contact =>
-          contact.name.toLowerCase().includes(action.payload.toLowerCase())
-        );
-      } else {
-        state.filteredItems = state.allItems;
-      }
+    setQ: (state, action) => {
+      state.q = action.payload; // action to set q
     },
   },
   extraReducers: {
@@ -78,5 +60,5 @@ const itemSlice = createSlice({
   },
 });
 
-export const { addItem, removeItem, filterItems } = itemSlice.actions;
+export const { setQ } = itemSlice.actions;
 export const itemReducer = itemSlice.reducer;

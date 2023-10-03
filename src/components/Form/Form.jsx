@@ -2,29 +2,30 @@ import React from 'react';
 import styles from './Form.module.css';
 import Result from 'components/Result/Result';
 import Filter from 'components/Filter/Filter';
-import { nanoid } from 'nanoid';
 import Notiflix from 'notiflix';
 import { useSelector, useDispatch } from 'react-redux';
 import { getContacts } from '../../redux/counter/selectors';
 import { fetchContacts, addContact } from '../../redux/counter/api';
 import { useEffect } from 'react';
+import useAuth from '../../hooks/useAuth';
 
 const Form = () => {
-  const filterItems = useSelector(state => state.item.filteredItems);
+  const q = useSelector(state => state.item.q);
   const items = useSelector(state => state.item.allItems);
+  const { isLoggedIn } = useAuth();
+
   const { isLoading, error } = useSelector(getContacts);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
+    isLoggedIn && dispatch(fetchContacts());
+  }, [dispatch, isLoggedIn]);
 
   const handleSubmit = evt => {
     evt.preventDefault();
     const contact = {
       name: evt.target.elements.name.value,
       number: evt.target.elements.number.value,
-      id: nanoid(),
     };
 
     const reservedName = items.some(user => user.name === contact.name);
@@ -38,6 +39,16 @@ const Form = () => {
       evt.target.elements.number.value = '';
     }
   };
+
+  function filterItems() {
+    if (q) {
+      return items.filter(contact =>
+        contact.name.toLowerCase().includes(q.toLowerCase())
+      );
+    } else {
+      return items;
+    }
+  }
 
   return (
     <>
@@ -70,7 +81,7 @@ const Form = () => {
         ? Notiflix.Notify.failure('Please, log in your account!')
         : error && <b>{error}</b>}
       <ul className={styles.gallery}>
-        {filterItems.map(item => (
+        {filterItems().map(item => (
           <Result data={item} key={item.id} />
         ))}
       </ul>
