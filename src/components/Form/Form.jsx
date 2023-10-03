@@ -66,7 +66,9 @@ const Form = () => {
       </form>
       <Filter />
       {isLoading && <b>Loading tasks...</b>}
-      {error && <b>{error}</b>}
+      {error.includes(401)
+        ? Notiflix.Notify.failure('Please, log in your account!')
+        : error && <b>{error}</b>}
       <ul className={styles.gallery}>
         {filterItems.map(item => (
           <Result data={item} key={item.id} />
