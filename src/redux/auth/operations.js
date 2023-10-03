@@ -25,6 +25,7 @@ export const register = createAsyncThunk(
       const res = await axios.post('/users/signup', credentials);
       // After successful registration, add the token to the HTTP header
       setAuthHeader(res.data.token);
+      Notiflix.Notify.success('Welcome!');
       return res.data;
     } catch (error) {
       if (error.response.data.code === 11000) {
