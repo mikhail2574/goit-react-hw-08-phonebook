@@ -66,7 +66,7 @@ const Form = () => {
       </form>
       <Filter />
       {isLoading && <b>Loading tasks...</b>}
-      {error.includes(401)
+      {error && error.includes(401)
         ? Notiflix.Notify.failure('Please, log in your account!')
         : error && <b>{error}</b>}
       <ul className={styles.gallery}>
