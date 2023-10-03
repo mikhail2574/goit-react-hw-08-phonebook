@@ -17,14 +17,12 @@ const Login = () => {
     form.reset();
   }
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <label htmlFor="email">Email</label>
       <input type="email" name="email" required />
       <label htmlFor="password">Password</label>
       <input type="password" name="password" required />
-      <button type="submit" onSubmit={handleSubmit}>
-        Register
-      </button>
+      <button type="submit">Register</button>
     </form>
   );
 };

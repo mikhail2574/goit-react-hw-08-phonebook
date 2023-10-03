@@ -49,7 +49,7 @@ export const logIn = createAsyncThunk(
       setAuthHeader(res.data.token);
       return res.data;
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
       thunkAPI.rejectWithValue(error.message);
     }
   }

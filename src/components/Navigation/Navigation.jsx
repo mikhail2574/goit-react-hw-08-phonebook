@@ -23,7 +23,6 @@ const Navigation = () => {
   ) : (
     <div className="header">
       <nav>
-        <NavLink to="/contacts">My contacts</NavLink>
         {isLoggedIn ? (
           <UserMenu />
         ) : (
