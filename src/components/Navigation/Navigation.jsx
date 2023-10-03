@@ -8,6 +8,7 @@ import { UserMenu } from '../UserMenu/UserMenu';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { refreshUser } from '../../redux/auth/operations';
+import { PrivateRoute } from 'components/PrivateRoute/PrivateRoute';
 
 const Navigation = () => {
   const dispatch = useDispatch();
@@ -36,7 +37,12 @@ const Navigation = () => {
         <Route path="/" element={<Main />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/contacts" element={<Contacts />} />
+        <Route
+          path="/contacts"
+          element={
+            <PrivateRoute redirectTo="/login" component={<Contacts />} />
+          }
+        />
         {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
       <Outlet />

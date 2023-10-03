@@ -22,7 +22,6 @@ const itemSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       state.allItems = action.payload;
-      state.filteredItems = action.payload;
     },
     [fetchContacts.rejected](state, action) {
       state.isLoading = false;
@@ -35,7 +34,6 @@ const itemSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       state.allItems.push(action.payload);
-      state.filteredItems.push(action.payload);
     },
     [addContact.rejected](state, action) {
       state.isLoading = false;
@@ -51,7 +49,6 @@ const itemSlice = createSlice({
         task => task.id === action.payload.id
       );
       state.allItems.splice(index, 1);
-      state.filteredItems.splice(index, 1);
     },
     [deleteContact.rejected](state, action) {
       state.isLoading = false;
