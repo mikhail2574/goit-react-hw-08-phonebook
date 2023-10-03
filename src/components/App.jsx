@@ -1,6 +1,6 @@
 import React from 'react';
-import Form from './Form/Form';
+import Navigation from './Navigation/Navigation';
 
 export const App = () => {
-  return <Form />;
+  return <Navigation />;
 };
